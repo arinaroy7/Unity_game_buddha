@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 public class BuddhaController : MonoBehaviour
 {
+    public event Action Dead;
     [SerializeField] private float _moveSpeed; 
     [SerializeField] private float _levitationSpeed; 
     [SerializeField] private Rigidbody2D _player;
-    [SerializeField] private Vector2  _vectro2;
-    private Rigidbody2D rb; 
     public float MoveSpeed => _moveSpeed;
     public float LlevitationSpeed => _levitationSpeed;
     public Rigidbody2D Player => _player; 
@@ -19,14 +19,17 @@ public class BuddhaController : MonoBehaviour
     }
     private void MovePlayer() 
     {
-        rb = GetComponent<Rigidbody2D>(); 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
-            rb.velocity = new Vector2(rb.velocity.x, _moveSpeed); 
+            FindObjectOfType<GameManager>().GetLevel();
         }
-        else 
+        else if (GameManager.Instance._value == 0)
         {
-            GameManager.GameOver();
-        }
+            FindObjectOfType<GameManager>().GameOver(); //Переделаю через Event - но тут в логике запуталась
+        }*/
+    }
+    private void PlayerDead() 
+    {
+        Dead?.Invoke();
     }
 }
