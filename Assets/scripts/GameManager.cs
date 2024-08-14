@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     [Header("Parametrs")]
     [SerializeField] private Transform _upperBound;
     [SerializeField] private Transform _lowerBound;
-    //public static GameManager Instance {get; private set;} Было надо для Instance
     public Transform UpperBound => _upperBound;
     private float _currentLevitationSpeed;
     private float _currentMoveSpeed;
@@ -70,4 +69,3 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-

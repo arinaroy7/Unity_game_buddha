@@ -25,7 +25,7 @@ public class BuddhaController : MonoBehaviour
         }
         else if (GameManager.Instance._value == 0)
         {
-            FindObjectOfType<GameManager>().GameOver(); //Переделаю через Event - но тут в логике запуталась
+            FindObjectOfType<GameManager>().GameOver(); // тут в логике запуталась
         }*/
     }
     private void PlayerDead() 
