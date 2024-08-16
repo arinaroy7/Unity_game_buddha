@@ -1,39 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using System;
+using UnityEngine.UI;
 public class BuddhaController : MonoBehaviour
 {
-    public event Action Dead;
-
     [SerializeField] private float _moveSpeed; 
-    [SerializeField] private float _levitationSpeed; 
-    [SerializeField] private Rigidbody2D _player;
+    [SerializeField] private float _speedDownBuddha; 
     [SerializeField] private Button _button;
+    [SerializeField] private Image _filledImage;
+    [SerializeField] private Transform _upperBound; 
+    [SerializeField] private Transform _lowerBound; 
 
-    public float MoveSpeed => _moveSpeed;
-    public float LlevitationSpeed => _levitationSpeed;
-    public Rigidbody2D Player => _player; 
-
+    private float _value=0.5f;
+    private bool isMovingUp = false;
+    
+    private void OnEnable()
+    {
+        _button.onClick.AddListener(OnButtonClicked);
+    }
+    private void OnButtonClicked() 
+    {
+        Debug.Log("Кнопка нажата");
+        isMovingUp = true;
+    }
     private void Update() 
     {
-        MovePlayer();
-    }
-    private void MovePlayer() 
-    {
-        /*if (Input.GetMouseButtonDown(0))
+        if (isMovingUp) 
         {
-            FindObjectOfType<GameManager>().GetLevel();
+            _value += _moveSpeed * Time.deltaTime;
+            if (_value >= 1f)
+            {
+                _value = 1f;
+                isMovingUp = false;
+            }
         }
-        else if (GameManager.Instance._value == 0)
+        else 
         {
-            FindObjectOfType<GameManager>().GameOver(); // тут в логике запуталась
-        }*/
-    }
-    private void PlayerDead() 
-    {
-        Dead?.Invoke();
+            _value -= _moveSpeed * Time.deltaTime;
+            if (_value <= 0f)
+            {
+                _value = 0f;
+            }
+        }
+        transform.position = Vector3.Lerp(_lowerBound.position, _upperBound.position, _value);
+        _filledImage.fillAmount = _value;
     }
 }
