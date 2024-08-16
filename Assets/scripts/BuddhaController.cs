@@ -7,12 +7,16 @@ using System;
 public class BuddhaController : MonoBehaviour
 {
     public event Action Dead;
+
     [SerializeField] private float _moveSpeed; 
     [SerializeField] private float _levitationSpeed; 
     [SerializeField] private Rigidbody2D _player;
+    [SerializeField] private Button _button;
+
     public float MoveSpeed => _moveSpeed;
     public float LlevitationSpeed => _levitationSpeed;
     public Rigidbody2D Player => _player; 
+
     private void Update() 
     {
         MovePlayer();
