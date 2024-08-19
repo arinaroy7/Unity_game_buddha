@@ -10,7 +10,7 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private Transform _upperBound; 
     [SerializeField] private Transform _lowerBound; 
 
-    private float _value=0.5f;
+    private float _value=0f;
     private bool isMovingUp = false;
     
     private void OnEnable()
