@@ -31,7 +31,7 @@ public class BuddhaController : MonoBehaviour
             if (_value >= 1f)
             {
                 _value = 1f;
-                isMovingUp = false;
+                _isMovingUp = false;
             }
         }
         else 
