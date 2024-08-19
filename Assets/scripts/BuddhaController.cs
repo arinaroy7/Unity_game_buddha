@@ -9,9 +9,10 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private Image _filledImage;
     [SerializeField] private Transform _upperBound; 
     [SerializeField] private Transform _lowerBound; 
+    [SerializeField] private Transform _imageBuddha;
 
     private float _value=0f;
-    private bool isMovingUp = false;
+    private bool _isMovingUp = false;
     
     private void OnEnable()
     {
@@ -20,11 +21,11 @@ public class BuddhaController : MonoBehaviour
     private void OnButtonClicked() 
     {
         Debug.Log("Кнопка нажата");
-        isMovingUp = true;
+        _isMovingUp = true;
     }
     private void Update() 
     {
-        if (isMovingUp) 
+        if (_isMovingUp) 
         {
             _value += _moveSpeed * Time.deltaTime;
             if (_value >= 1f)
