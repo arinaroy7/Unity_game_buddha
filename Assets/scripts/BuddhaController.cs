@@ -4,15 +4,15 @@ using UnityEngine.UI;
 public class BuddhaController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed; 
-    [SerializeField] private float _speedDownBuddha; 
+    [SerializeField] private float _speedDownBuddha;
+    [SerializeField] private float _speedUpIncrement; 
     [SerializeField] private Button _button;
     [SerializeField] private Image _filledImage;
     [SerializeField] private Transform _upperBound; 
     [SerializeField] private Transform _lowerBound; 
     [SerializeField] private Transform _imageBuddha;
 
-    private float _value=0f;
-    private bool _isMovingUp = false;
+    private float _value=0.5f;
     
     private void OnEnable()
     {
@@ -20,29 +20,25 @@ public class BuddhaController : MonoBehaviour
     }
     private void OnButtonClicked() 
     {
-        Debug.Log("Кнопка нажата");
-        _isMovingUp = true;
+        _value += _speedUpIncrement;
+        if (_value > 1f)
+        {
+            _value = 1f;
+        }
     }
     private void Update() 
     {
-        if (_isMovingUp) 
+        _value -= _moveSpeed * Time.deltaTime;
+        if (_value < 0f)
         {
-            _value += _moveSpeed * Time.deltaTime;
-            if (_value >= 1f)
-            {
-                _value = 1f;
-                _isMovingUp = false;
-            }
+            _value = 0f;
+            
         }
-        else 
-        {
-            _value -= _moveSpeed * Time.deltaTime;
-            if (_value <= 0f)
-            {
-                _value = 0f;
-            }
-        }
-        transform.position = Vector3.Lerp(_lowerBound.position, _upperBound.position, _value);
+        UpdateBuddhaProgress();
+    }
+    private void UpdateBuddhaProgress()
+    {
+        _imageBuddha.position = Vector3.Lerp(_lowerBound.position, _upperBound.position, _value);
         _filledImage.fillAmount = _value;
     }
 }
