@@ -42,6 +42,5 @@ public class BuddhaController : MonoBehaviour
     {
         _imageBuddha.position = Vector3.Lerp(_lowerBound.position, _upperBound.position, _value);
         _filledImage.fillAmount = _value;
-        //int progressPercentage = Mathf.RoundToInt(_value * 100);
     }
 }
