@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 public class BuddhaController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed; 
@@ -11,6 +12,7 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private Transform _upperBound; 
     [SerializeField] private Transform _lowerBound; 
     [SerializeField] private Transform _imageBuddha;
+    [SerializeField] private TextMeshProUGUI _ProgressBar;
 
     private float _value=0.5f;
     
@@ -40,5 +42,6 @@ public class BuddhaController : MonoBehaviour
     {
         _imageBuddha.position = Vector3.Lerp(_lowerBound.position, _upperBound.position, _value);
         _filledImage.fillAmount = _value;
+        //int progressPercentage = Mathf.RoundToInt(_value * 100);
     }
 }

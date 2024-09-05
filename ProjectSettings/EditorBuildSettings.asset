@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/NEWSCENE2.0.unity
-    guid: 6a8dd6fa622eb09418e696c38b289663
+    path: Assets/Scenes/NEWSCENEITOG.unity
+    guid: 1c89ee9f3ddbf65479743424611e0262
   m_configObjects: {}
