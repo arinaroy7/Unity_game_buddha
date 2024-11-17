@@ -13,12 +13,16 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private Transform _lowerBound; 
     [SerializeField] private Transform _imageBuddha;
     [SerializeField] private TextMeshProUGUI _ProgressBar;
+    [SerializeField] private AudioClip _SoundDown;
+    [SerializeField] private AudioClip _SoundUp;
 
     private float _value=0.5f;
+    private AudioSource _audioSource;
     
     private void OnEnable()
     {
         _button.onClick.AddListener(OnButtonClicked);
+        _audioSource = GetComponent<AudioSource>();
     }
     private void OnButtonClicked() 
     {
@@ -26,6 +30,10 @@ public class BuddhaController : MonoBehaviour
         if (_value > 1f)
         {
             _value = 1f;
+        }
+        if (_audioSource && _SoundUp)
+        {
+            _audioSource.PlayOneShot(_SoundUp);  // Воспроизведение звука увеличения
         }
     }
     private void Update() 
@@ -35,6 +43,10 @@ public class BuddhaController : MonoBehaviour
         {
             _value = 0f;
             
+        }
+        if (_audioSource && _SoundDown)
+        {
+            _audioSource.PlayOneShot(_SoundDown);  // Воспроизведение звука уменьшения
         }
         UpdateBuddhaProgress();
     }
