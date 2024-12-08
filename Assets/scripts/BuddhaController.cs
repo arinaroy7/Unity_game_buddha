@@ -14,10 +14,12 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private Transform _imageBuddha;
     [SerializeField] private TextMeshProUGUI _ProgressBar;
     [SerializeField] private Material backgroundMaterial; 
-    [SerializeField] private float _scrollSpeed = 0.8f;  
+    [SerializeField] private float _scrollSpeed = 0.8f; 
+    [SerializeField] private GameObject _platform;
 
     private Vector2 _offset;
     private float _value = 0.5f;
+    private int _clickCount = 0;
 
     private void OnEnable()
     {
@@ -36,6 +38,12 @@ public class BuddhaController : MonoBehaviour
         if (_value > 1f)
         {
             _value = 1f;
+        }
+
+        _clickCount++;
+        if (_clickCount >= 20)
+        {
+            HidePlatform();
         }
     }
 
@@ -62,7 +70,19 @@ public class BuddhaController : MonoBehaviour
         _value = 0.2f;
         _offset = Vector2.zero;
         backgroundMaterial.mainTextureOffset = _offset;
+        _clickCount = 0;
+        if (_platform != null)
+        {
+            _platform.SetActive(true);
+        }
         UpdateBuddhaProgress();
     }
-}
 
+    private void HidePlatform()
+    {
+        if (_platform != null)
+        {
+            _platform.SetActive(false);
+        }
+    }
+}
