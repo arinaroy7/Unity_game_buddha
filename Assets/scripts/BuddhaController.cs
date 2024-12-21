@@ -1,28 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class BuddhaController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed; 
+    [SerializeField] private float _moveSpeed;
     [SerializeField] private float _speedDownBuddha;
-    [SerializeField] private float _speedUpIncrement; 
+    [SerializeField] private float _speedUpIncrement;
     [SerializeField] private Button _button;
     [SerializeField] private Image _filledImage;
-    [SerializeField] private Transform _upperBound; 
-    [SerializeField] private Transform _lowerBound; 
+    [SerializeField] private Transform _upperBound;
+    [SerializeField] private Transform _lowerBound;
     [SerializeField] private Transform _imageBuddha;
     [SerializeField] private TextMeshProUGUI _ProgressBar;
-    [SerializeField] private Material backgroundMaterial; 
-    [SerializeField] private float _scrollSpeed = 0.8f; 
+    [SerializeField] private Material backgroundMaterial;
+    [SerializeField] private float _scrollSpeed = 0.8f;
     [SerializeField] private GameObject _platform;
-    [SerializeField] private GameObject _gameOverImage; 
+    [SerializeField] private GameObject _gameOverImage;
+
+    // Новые переменные для движения Image
+    [SerializeField] private RectTransform _image1;
+    [SerializeField] private RectTransform _image2;
+    [SerializeField] private RectTransform _image3;
+    [SerializeField] private float _imageMoveSpeed = 50f;
 
     private Vector2 _offset;
     private float _value = 0.5f;
     private int _clickCount = 0;
-    private bool _isGameOver = false; 
+    private bool _isGameOver = false;
 
     private void OnEnable()
     {
@@ -35,7 +41,7 @@ public class BuddhaController : MonoBehaviour
         _button.onClick.RemoveListener(OnButtonClicked);
     }
 
-    private void OnButtonClicked() 
+    private void OnButtonClicked()
     {
         if (_isGameOver) return;
 
@@ -52,15 +58,20 @@ public class BuddhaController : MonoBehaviour
         }
     }
 
-    private void Update() 
+    private void Update()
     {
         float previousValue = _value;
         _value -= _moveSpeed * Time.deltaTime;
         _value = Mathf.Clamp(_value, 0f, 1f);
         _offset.y += _scrollSpeed * Time.deltaTime;
         backgroundMaterial.mainTextureOffset = _offset;
+
+        // Движение изображений
+        MoveImages();
+
         UpdateBuddhaProgress();
-        if (_value <= 0f) 
+
+        if (_value <= 0f)
         {
             EndGame();
         }
@@ -87,7 +98,7 @@ public class BuddhaController : MonoBehaviour
 
         if (_gameOverImage != null)
         {
-            _gameOverImage.SetActive(false); 
+            _gameOverImage.SetActive(false);
         }
 
         UpdateBuddhaProgress();
@@ -108,24 +119,58 @@ public class BuddhaController : MonoBehaviour
         {
             _gameOverImage.SetActive(true);
         }
-        Invoke("RestartGame", 2f); 
+        Invoke("RestartGame", 2f);
     }
 
     private void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
     private void EndGame()
     {
         if (_platform != null)
-            _platform.SetActive(false);   
+            _platform.SetActive(false);
         if (_filledImage != null)
-            _filledImage.gameObject.SetActive(false); 
+            _filledImage.gameObject.SetActive(false);
         if (_filledImage.transform.parent != null)
-            _filledImage.transform.parent.gameObject.SetActive(false); 
+            _filledImage.transform.parent.gameObject.SetActive(false);
         if (_imageBuddha != null)
-            _imageBuddha.gameObject.SetActive(false); 
+            _imageBuddha.gameObject.SetActive(false);
         if (_gameOverImage != null)
             _gameOverImage.SetActive(true);
+    }
+
+    private void MoveImages()
+    {
+        // Двигаем изображения вниз
+        _image1.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
+        _image2.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
+        _image3.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
+
+        // Проверяем, если изображение выходит за нижнюю границу
+        if (_image1.anchoredPosition.y < -_image1.rect.height)
+        {
+            _image1.anchoredPosition = new Vector2(
+                _image1.anchoredPosition.x,
+                _image3.anchoredPosition.y + _image3.rect.height
+            );
+        }
+
+        if (_image2.anchoredPosition.y < -_image2.rect.height)
+        {
+            _image2.anchoredPosition = new Vector2(
+                _image2.anchoredPosition.x,
+                _image1.anchoredPosition.y + _image1.rect.height
+            );
+        }
+
+        if (_image3.anchoredPosition.y < -_image3.rect.height)
+        {
+            _image3.anchoredPosition = new Vector2(
+                _image3.anchoredPosition.x,
+                _image2.anchoredPosition.y + _image2.rect.height
+            );
+        }
     }
 }
