@@ -18,8 +18,6 @@ public class BuddhaController : MonoBehaviour
     [SerializeField] private float _scrollSpeed = 0.8f;
     [SerializeField] private GameObject _platform;
     [SerializeField] private GameObject _gameOverImage;
-
-    // Новые переменные для движения Image
     [SerializeField] private RectTransform _image1;
     [SerializeField] private RectTransform _image2;
     [SerializeField] private RectTransform _image3;
@@ -65,12 +63,8 @@ public class BuddhaController : MonoBehaviour
         _value = Mathf.Clamp(_value, 0f, 1f);
         _offset.y += _scrollSpeed * Time.deltaTime;
         backgroundMaterial.mainTextureOffset = _offset;
-
-        // Движение изображений
         MoveImages();
-
         UpdateBuddhaProgress();
-
         if (_value <= 0f)
         {
             EndGame();
@@ -143,12 +137,10 @@ public class BuddhaController : MonoBehaviour
 
     private void MoveImages()
     {
-        // Двигаем изображения вниз
         _image1.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
         _image2.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
         _image3.anchoredPosition -= new Vector2(0, _imageMoveSpeed * Time.deltaTime);
 
-        // Проверяем, если изображение выходит за нижнюю границу
         if (_image1.anchoredPosition.y < -_image1.rect.height)
         {
             _image1.anchoredPosition = new Vector2(
